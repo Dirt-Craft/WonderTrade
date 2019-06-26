@@ -1,7 +1,7 @@
 package com.mcsimonflash.sponge.wondertrade.data;
 
 import com.mcsimonflash.sponge.wondertrade.internal.Utils;
-import com.pixelmonmod.pixelmon.entities.pixelmon.EntityPixelmon;
+import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.service.user.UserStorageService;
@@ -11,17 +11,17 @@ import java.util.UUID;
 
 public class TradeEntry {
 
-    private final EntityPixelmon pokemon;
+    private final Pokemon pokemon;
     private final UUID owner;
     private final LocalDateTime date;
 
-    public TradeEntry(EntityPixelmon pokemon, UUID owner, LocalDateTime date) {
+    public TradeEntry(Pokemon pokemon, UUID owner, LocalDateTime date) {
         this.pokemon = pokemon;
         this.owner = owner;
         this.date = date;
     }
 
-    public EntityPixelmon getPokemon() {
+    public Pokemon getPokemon() {
         return pokemon;
     }
 
@@ -34,12 +34,12 @@ public class TradeEntry {
     }
 
     public String getOwnerName() {
-        return owner.equals(Utils.ZERO_UUID) ? "Server" : Sponge.getServiceManager().provideUnchecked(UserStorageService.class).get(owner).map(User::getName).orElse(owner.toString());
+        return owner.equals(Utils.ZERO_UUID) ? "&cDirtCraft" : Sponge.getServiceManager().provideUnchecked(UserStorageService.class).get(owner).map(User::getName).orElse(owner.toString());
     }
 
     public TradeEntry refine(User user) {
         if (owner.equals(Utils.ZERO_UUID)) {
-            pokemon.setOwnerId(user.getUniqueId());
+            pokemon.setOriginalTrainer(user.getUniqueId(), user.getName());
         }
         return this;
     }

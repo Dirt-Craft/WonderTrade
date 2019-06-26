@@ -29,7 +29,11 @@ public class Regen extends Command {
             throw new CommandException(WonderTrade.getMessage(src, "wondertrade.command.regen"));
         }
         Manager.fillPool(true, overwritePlayers);
-        src.sendMessage(WonderTrade.getMessage(src, "wondertrade.command.regen.success"));
+        if (overwritePlayers) {
+            src.sendMessage(WonderTrade.getMessage(src, "wondertrade.command.regen.success.overwrite"));
+        } else {
+            src.sendMessage(WonderTrade.getMessage(src, "wondertrade.command.regen.success"));
+        }
         return CommandResult.success();
     }
 

@@ -22,7 +22,14 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Locale;
 
-@Plugin(id = "wondertrade", name = "WonderTrade", version = "1.0.2", dependencies = @Dependency(id = "pixelmon"), authors = "Simon_Flash")
+@Plugin(id = "wondertrade",
+        name = "WonderTrade",
+        description = "DirtCraft's WonderTrade plugin designed for Pixelmon Reforged",
+        version = "1.0.2",
+        dependencies = @Dependency(id = "pixelmon"),
+        authors = {"simon_flash", "juliann"}
+)
+
 public class WonderTrade {
 
     private static WonderTrade instance;
@@ -48,7 +55,7 @@ public class WonderTrade {
             logger.error("An error occurred initializing message translations. Using internal copies.");
             messages = MessageService.of(container, "messages");
         }
-        prefix = Utils.toText("&3Wonder&9Trade&8: &7");
+        prefix = Utils.toText("&dWonder&5Trade&8: &7");
     }
 
     @Listener

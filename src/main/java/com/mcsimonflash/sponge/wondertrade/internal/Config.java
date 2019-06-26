@@ -8,7 +8,7 @@ import com.pixelmonmod.pixelmon.entities.pixelmon.EntityPixelmon;
 import com.pixelmonmod.pixelmon.entities.pixelmon.stats.Gender;
 import com.pixelmonmod.pixelmon.enums.EnumGrowth;
 import com.pixelmonmod.pixelmon.enums.EnumNature;
-import com.pixelmonmod.pixelmon.enums.EnumPokemon;
+import com.pixelmonmod.pixelmon.enums.EnumSpecies;
 import com.pixelmonmod.pixelmon.enums.items.EnumPokeballs;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
@@ -98,33 +98,33 @@ public class Config {
     }
 
     private static TradeEntry deserializeTrade(ConfigurationNode node) {
-        EnumPokemon type = EnumPokemon.getFromName(node.getNode("name").getString("")).orElseThrow(() -> new IllegalStateException("Malformed storage - no pokemon named " + node.getNode("name").getString()));
+        EnumSpecies type = EnumSpecies.getFromName(node.getNode("name").getString("")).orElseThrow(() -> new IllegalStateException("Malformed storage - no pokemon named " + node.getNode("name").getString()));
         UUID owner = UUID.fromString(node.getNode("owner").getString(Utils.ZERO_UUID.toString()));
         LocalDateTime date = LocalDateTime.ofEpochSecond(node.getNode("time").getLong(0), 0, ZoneOffset.UTC);
         EntityPixelmon pokemon = (EntityPixelmon) PixelmonEntityList.createEntityByName(type.name, Utils.getWorld());
         pokemon.getLvl().setLevel(node.getNode("level").getInt(5));
-        pokemon.setGender(Gender.values()[node.getNode("gender").getInt(0)]);
-        pokemon.setGrowth(EnumGrowth.getGrowthFromIndex(node.getNode("growth").getInt(3)));
-        pokemon.setNature(EnumNature.getNatureFromIndex(node.getNode("nature").getInt(4)));
-        pokemon.setAbility(node.getNode("ability").getString(""));
-        pokemon.setIsShiny(node.getNode("shiny").getBoolean(false));
+        pokemon.getPokemonData().setGender(Gender.values()[node.getNode("gender").getInt(0)]);
+        pokemon.getPokemonData().setGrowth(EnumGrowth.getGrowthFromIndex(node.getNode("growth").getInt(3)));
+        pokemon.getPokemonData().setNature(EnumNature.getNatureFromIndex(node.getNode("nature").getInt(4)));
+        pokemon.getPokemonData().setAbility((node.getNode("ability").getString("")));
+        pokemon.getPokemonData().setShiny(node.getNode("shiny").getBoolean(false));
         pokemon.setForm(node.getNode("form").getInt(0));
-        pokemon.caughtBall = EnumPokeballs.values()[node.getNode("ball").getInt(0)];
-        return new TradeEntry(pokemon, owner, date);
+        pokemon.getPokemonData().setCaughtBall(EnumPokeballs.values()[node.getNode("ball").getInt(0)]);
+        return new TradeEntry(pokemon.getPokemonData(), owner, date);
     }
 
     private static void serializeTrade(TradeEntry entry, ConfigurationNode node) {
         node.getNode("owner").setValue(entry.getOwner().toString());
         node.getNode("time").setValue(entry.getDate().toEpochSecond(ZoneOffset.UTC));
         node.getNode("name").setValue(entry.getPokemon().getSpecies().name);
-        node.getNode("level").setValue(entry.getPokemon().getLvl().getLevel());
+        node.getNode("level").setValue(entry.getPokemon().getLevel());
         node.getNode("gender").setValue(entry.getPokemon().getGender().ordinal());
         node.getNode("growth").setValue(entry.getPokemon().getGrowth().index);
         node.getNode("nature").setValue(entry.getPokemon().getNature().index);
         node.getNode("ability").setValue(entry.getPokemon().getAbility().getName());
-        node.getNode("shiny").setValue(entry.getPokemon().getIsShiny());
+        node.getNode("shiny").setValue(entry.getPokemon().isShiny());
         node.getNode("form").setValue(entry.getPokemon().getForm());
-        node.getNode("ball").setValue(entry.getPokemon().caughtBall != null ? entry.getPokemon().caughtBall.ordinal() : 0);
+        node.getNode("ball").setValue(entry.getPokemon().getCaughtBall() != null ? entry.getPokemon().getCaughtBall().ordinal() : 0);
     }
 
 }

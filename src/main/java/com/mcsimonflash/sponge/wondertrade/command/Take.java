@@ -6,19 +6,13 @@ import com.mcsimonflash.sponge.teslalibs.command.Aliases;
 import com.mcsimonflash.sponge.teslalibs.command.Command;
 import com.mcsimonflash.sponge.teslalibs.command.Permission;
 import com.mcsimonflash.sponge.wondertrade.WonderTrade;
-import com.mcsimonflash.sponge.wondertrade.data.TradeEntry;
 import com.mcsimonflash.sponge.wondertrade.internal.Config;
-import com.mcsimonflash.sponge.wondertrade.internal.Manager;
 import com.mcsimonflash.sponge.wondertrade.internal.Utils;
-import com.pixelmonmod.pixelmon.storage.PlayerStorage;
-import net.minecraft.server.management.UserListBansEntry;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.profile.GameProfile;
-import org.spongepowered.api.service.ban.BanService;
 
 @Aliases("take")
 @Permission("wondertrade.command.take.base")
